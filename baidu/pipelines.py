@@ -7,6 +7,7 @@
 import json
 
 import time
+import re
 from scrapy.exceptions import DropItem
 
 
@@ -30,7 +31,7 @@ class BaiduPipeline(object):
 
 class JsonWriterPipeline(object):
     def __init__(self):
-        #self.file = open('baidu.txt', 'wb')
+        self.file = open('baidu.txt', 'wb')
         self.fileDict = open('baiduDict.txt', 'wb')
 
     def process_item(self, item, spider):
@@ -39,13 +40,15 @@ class JsonWriterPipeline(object):
         line=""
         dictLine=""
         if len(dict(item).values())>1:
-            dictLine = dict(item).values()[0].encode("utf-8")
-            line = dict(item).values()[1].encode("utf-8") + "\n"
+            dictLine = dict(item)['name'].encode("utf-8")+"\n"
+            line = dict(item)['animalText'].encode("utf-8") + "\n"
         #time.sleep(5)
-        dictLine=dictLine.replace("_百度百科","")
-        print dictLine
+        dictLine = dictLine.replace("_百度百科","")
+        dictLine = re.sub('（.*?）'.encode("utf-8"), '', dictLine.encode("utf-8"))
+        #print dictLine
         #time.sleep(100)
-        self.fileDict.write("dictLine")
-        #self.file.write(line)
-        time.sleep(1)
+        self.fileDict.write(dictLine)
+        self.fileDict.flush()
+        self.file.write(line)
+        #time.sleep(1)
         return item

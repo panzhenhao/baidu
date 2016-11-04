@@ -24,7 +24,7 @@ class rsSpider(scrapy.spiders.Spider):  # 该类继承自 scrapy 中的 spider
     name = "baike"  # 将该爬虫命名为 “百科”，在执行爬虫时对应指令将为： scrapy crawl baike
     global url_set
     url_set = set()
-    # download_delay = 2                       #只是用于控制爬虫速度的，2s/次，可以用来对付反爬虫
+    download_delay = 1                       #只是用于控制爬虫速度的，1s/次，可以用来对付反爬虫
 
     allowed_domains = ["baike.baidu.com"]  # 允许爬取的作用域
     # url_first = 'http://zhidao.baidu.com/question/'   #用于之后解析域名用的短字符串
@@ -79,6 +79,7 @@ class rsSpider(scrapy.spiders.Spider):  # 该类继承自 scrapy 中的 spider
                         # fout.flush()
                 except Exception, e:
                     print e
+                #print item
                 yield item
                 # print pageName, pageUrl, pageHtml
         else:  # 此时进入的非 url 网页一定是没有爬取过的（因为深入start_url之后的网页都会先进行判断，在爬取，在下面的for循环中判断）
@@ -108,6 +109,7 @@ class rsSpider(scrapy.spiders.Spider):  # 该类继承自 scrapy 中的 spider
                     # fout.flush()
             except Exception, e:
                 print e
+            #print item
             yield item
             # print pageName, pageUrl, pageHtml
         ##相当于递归调用
