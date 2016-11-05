@@ -11,6 +11,12 @@ import scrapy
 class BaiduItem(scrapy.Item):
     # define the fields for your item here like:
     name = scrapy.Field()
-    animalText  = scrapy.Field()
+    animalText = scrapy.Field()
     #
     # Html = scrapy.Field()
+
+
+class WikiItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    content = scrapy.Field()
